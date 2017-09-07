@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <VersionPrefix>1.1.0</VersionPrefix>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>Practical.Service</AssemblyName>
+    <PackageId>Practical.Service</PackageId>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <RootNamespace>Practical.Service</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Practical.Data\Practical.Data.csproj" />
+    <ProjectReference Include="..\Practical.Repo\Practical.Repo.csproj" />
+  </ItemGroup>
+
+</Project>
