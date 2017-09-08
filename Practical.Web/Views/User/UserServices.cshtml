@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UserViewModel>
+﻿@model IEnumerable<Practical.Data.UService>
 @using Practical.Web.Models
 @using Practical.Web.Code
 
@@ -6,19 +6,17 @@
 <div class="panel panel-primary">
     <div class="panel-heading panel-head">Users</div>
     <div class="panel-body">
-        <div class="btn-group">
-            <a id="createEditUserModal" data-toggle="modal" asp-action="AddUser" data-target="#modal-action-user" class="btn btn-primary">
-                <i class="glyphicon glyphicon-plus"></i>  Add User
-            </a>
-        </div>
+        @*<div class="btn-group">
+                <a id="createEditUserModal" data-toggle="modal" asp-action="AddUser" data-target="#modal-action-user" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-plus"></i>  Add User
+                </a>
+            </div>*@
         <div class="top-buffer"></div>
         <table class="table table-bordered table-striped table-condensed">
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Service</th>
                     <th>CreateDate</th>
-                    <th>Active</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,9 +24,7 @@
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Service)</td>
-                        <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Isactive)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CreateDate)</td>
                     </tr>
                 }
             </tbody>

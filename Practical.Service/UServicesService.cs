@@ -9,24 +9,23 @@ namespace Practical.Service
 {
     public class UServicesService : IUServicesService
     {
-        private IRepository<User> userRepository;
+        private IRepository<Practical.Data.UserService> userServiceRepository;
         private IRepository<UService> userviceRepository;
 
-        public UServicesService(IRepository<User> userRepository, IRepository<UService> userviceRepository)
+        public UServicesService(IRepository<Practical.Data.UserService> userServiceRepository, IRepository<UService> userviceRepository)
         {
-            this.userRepository = userRepository;
+            this.userServiceRepository = userServiceRepository;
             this.userviceRepository = userviceRepository;
+        }
+
+        public List<UService> GetUserServices(long userId)
+        {
+            return userServiceRepository.Table().Where(c => c.UserId == userId).Select(c => c.Service).ToList();
         }
 
         public UService GetUService(long id)
         {
-            return userviceRepository.Get(id);
-        }
-
-
-        IEnumerable<UService> IUServicesService.GetUServiceList(long id)
-        {
-            return userviceRepository.GetAll();
+            return userviceRepository.Table().FirstOrDefault(c => c.Id == id);
         }
 
         IEnumerable<UService> IUServicesService.GetUService()

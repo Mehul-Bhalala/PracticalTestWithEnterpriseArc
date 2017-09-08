@@ -14,13 +14,12 @@ namespace Practical.Web.Controllers
         private readonly IUserServices userService;
         private readonly IUServicesService uservicesService;
          
-        private readonly IUserServicesList userServicesList;
+        
 
-        public UserController(IUserServices userService, IUServicesService uServicesService, IUserServicesList userServicesList)
+        public UserController(IUserServices userService, IUServicesService uServicesService)
         {
             this.userService = userService;
             this.uservicesService = uServicesService;
-            this.userServicesList = userServicesList;
         }
 
         [HttpGet]
@@ -30,27 +29,54 @@ namespace Practical.Web.Controllers
             List<UserViewModel> model = new List<UserViewModel>();
             userService.GetUsers().ToList().ForEach(u =>
             {
-                userServicesList.GetUServiceListById(u.Id).ToList().ForEach(s => {
-
+                var service = uservicesService.GetUserServices(u.Id).ToList();
+                if (service.Count > 0)
+                {
+                    service.ForEach(s => {
+                        UserViewModel user = new UserViewModel
+                        {
+                            Id = u.Id,
+                            Name = u.FullName,
+                            Service = s.Name,
+                            CreatedDate = u.CreateDate,
+                            Isactive = u.IsActive
+                        };
+                        model.Add(user);
+                    });
+                }
+                else
+                {
                     UserViewModel user = new UserViewModel
                     {
                         Id = u.Id,
                         Name = u.FullName,
-                        Service = s.Name,
+                        Service = string.Empty,
                         CreatedDate = u.CreateDate,
-                        Isactive=u.IsActive
+                        Isactive = u.IsActive
                     };
                     model.Add(user);
-                });
-
-
+                }
                 
             });
 
             return View(model);
         }
-
         [HttpGet]
+        public IActionResult Services()
+        {
+            var services = uservicesService.GetUService().ToList();
+            return View(services);
+        }
+
+        
+        [Route("Users/{UserId:long}/Services")]
+        public IActionResult UserServices(long UserId)
+        {
+            var services = uservicesService.GetUserServices(UserId);
+            return View(services);
+        }
+        [HttpGet]
+        [Route("Users/Create")]
         public ActionResult AddUser()
         {
             UserViewModel model = new UserViewModel();
@@ -58,34 +84,21 @@ namespace Practical.Web.Controllers
             return PartialView("_AddUser", model);
         }
 
-        //[HttpPost]
-        //public ActionResult AddUser(UserViewModel model)
-        //{
-        //    User userEntity = new User
-        //    {
-        //        UserName = model.UserName,
-        //        Email = model.Email,
-        //        Password = model.Password,
-        //        AddedDate = DateTime.UtcNow,
-        //        ModifiedDate = DateTime.UtcNow,
-        //        IPAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
-        //        UserProfile = new UserProfile
-        //        {
-        //            FirstName = model.FirstName,
-        //            LastName = model.LastName,
-        //            Address = model.Address,
-        //            AddedDate = DateTime.UtcNow,
-        //            ModifiedDate = DateTime.UtcNow,
-        //            IPAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString()
-        //        }
-        //    };
-        //    userService.InsertUser(userEntity);
-        //    if (userEntity.Id > 0)
-        //    {
-        //        return RedirectToAction("index");
-        //    }
-        //    return View(model);
-        //}
+        [HttpPost]
+        public ActionResult AddUser(UserViewModel model)
+        {
+            User userEntity = new User
+            {
+                FullName = model.Name,
+                IsActive= model.Isactive,
+            };
+            userService.InsertUser(userEntity);
+            if (userEntity.Id > 0)
+            {
+                return RedirectToAction("index");
+            }
+            return View(model);
+        }
 
         //public ActionResult EditUser(int? id)
         //{

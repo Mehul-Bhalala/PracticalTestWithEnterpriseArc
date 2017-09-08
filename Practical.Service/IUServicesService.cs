@@ -10,7 +10,6 @@ namespace Practical.Service
     {
         UService GetUService(long id);
         IEnumerable<UService> GetUService();
-
-        IEnumerable<UService> GetUServiceList(long id);
+        List<UService> GetUserServices(long userId);
     }
 }

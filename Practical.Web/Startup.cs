@@ -35,7 +35,6 @@ namespace Practical.Web
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IUserServices, UserService>();
-            services.AddTransient<IUserServicesList, UserServicesList>();
             services.AddTransient<IUServicesService, UServicesService>();
         }
 

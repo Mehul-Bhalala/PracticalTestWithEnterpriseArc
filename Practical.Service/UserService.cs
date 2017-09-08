@@ -23,14 +23,10 @@ namespace Practical.Service
             return userRepository.GetAll();
         }
 
-        public IEnumerable<User> GetUsers(long id)
-        {
-            return userRepository.GetAll(id);
-        }
 
         public User GetUser(long id)
         {
-            return userRepository.Get(id);
+            return userRepository.Table().FirstOrDefault(c => c.Id == id); 
         }
 
         public void InsertUser(User user)
@@ -44,7 +40,7 @@ namespace Practical.Service
 
         public void DeleteUser(long id)
         {            
-            UService uservice = userviceRepository.Get(id);
+            UService uservice = userviceRepository.Table().FirstOrDefault(c => c.Id == id);
             userviceRepository.Remove(uservice);
             User user = GetUser(id);
             userRepository.Remove(user);

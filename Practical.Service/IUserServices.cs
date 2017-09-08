@@ -9,7 +9,6 @@ namespace Practical.Service
     {
         IEnumerable<User> GetUsers();
 
-        IEnumerable<User> GetUsers(long id);
         User GetUser(long id);
         void InsertUser(User user);
         void UpdateUser(User user);

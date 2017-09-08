@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Practical.Repo
 {
-   public interface IRepository<T> where T : BaseEntity
+   public interface IRepository<T> where T : class
     {
+        IQueryable<T> Table();
         IEnumerable<T> GetAll();
-        IEnumerable<T> GetAll(long id);
-        T Get(long id);
+        
         void Insert(T entity);
         void Update(T entity);
         void Delete(T entity);

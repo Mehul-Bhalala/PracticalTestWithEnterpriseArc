@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Practical.Repo
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationContext context;
         private DbSet<T> entities;
@@ -18,18 +18,16 @@ namespace Practical.Repo
             this.context = context;
             entities = context.Set<T>();
         }
+        public virtual IQueryable<T> Table()
+        {
+            return this.entities;
+        }
+
         public IEnumerable<T> GetAll()
         {
             return entities.AsEnumerable();
         }
-        public IEnumerable<T> GetAll(long id)
-        {
-            return entities.Where(s=> s.Id==id).AsEnumerable();
-        }
-        public T Get(long id)
-        {
-            return entities.SingleOrDefault(s => s.Id == id);
-        }
+        
         public void Insert(T entity)
         {
             if (entity == null)
