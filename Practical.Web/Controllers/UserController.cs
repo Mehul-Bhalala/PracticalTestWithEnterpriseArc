@@ -13,8 +13,8 @@ namespace Practical.Web.Controllers
     {
         private readonly IUserServices userService;
         private readonly IUServicesService uservicesService;
-         
-        
+
+
 
         public UserController(IUserServices userService, IUServicesService uServicesService)
         {
@@ -23,7 +23,6 @@ namespace Practical.Web.Controllers
         }
 
         [HttpGet]
-        [Route("Users/list")]
         public IActionResult Index()
         {
             List<UserViewModel> model = new List<UserViewModel>();
@@ -32,7 +31,8 @@ namespace Practical.Web.Controllers
                 var service = uservicesService.GetUserServices(u.Id).ToList();
                 if (service.Count > 0)
                 {
-                    service.ForEach(s => {
+                    service.ForEach(s =>
+                    {
                         UserViewModel user = new UserViewModel
                         {
                             Id = u.Id,
@@ -56,7 +56,7 @@ namespace Practical.Web.Controllers
                     };
                     model.Add(user);
                 }
-                
+
             });
 
             return View(model);
@@ -68,15 +68,15 @@ namespace Practical.Web.Controllers
             return View(services);
         }
 
-        
-        [Route("Users/{UserId:long}/Services")]
+
+        [Route("User/{UserId:long}/Services")]
         public IActionResult UserServices(long UserId)
         {
             var services = uservicesService.GetUserServices(UserId);
             return View(services);
         }
         [HttpGet]
-        [Route("Users/Create")]
+        [Route("User/Create")]
         public ActionResult AddUser()
         {
             UserViewModel model = new UserViewModel();
@@ -90,7 +90,7 @@ namespace Practical.Web.Controllers
             User userEntity = new User
             {
                 FullName = model.Name,
-                IsActive= model.Isactive,
+                IsActive = model.Isactive,
             };
             userService.InsertUser(userEntity);
             if (userEntity.Id > 0)
